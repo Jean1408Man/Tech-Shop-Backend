@@ -66,3 +66,4 @@ venv.bak/
 mysql_data/
 alembic/versions/*
 !alembic/versions/.gitkeep
+!alembic/versions/*.py
