@@ -14,12 +14,14 @@ def test_ofertas_crud_with_products(api_client, create_producto):
             "nombre": "Oferta desayuno",
             "descripcion": "Descuento inicial",
             "monto_descuento": "1.50",
+            "imagen": "https://example.com/oferta.png",
             "producto_ids": [producto_a["id"]],
         },
     )
     assert create_response.status_code == 201
     oferta = create_response.body
     assert oferta["nombre"] == "Oferta desayuno"
+    assert oferta["imagen"] == "https://example.com/oferta.png"
     assert [producto["id"] for producto in oferta["productos"]] == [producto_a["id"]]
 
     list_response = api_client.get("/api/v1/ofertas/")
@@ -35,12 +37,14 @@ def test_ofertas_crud_with_products(api_client, create_producto):
         json_body={
             "nombre": "Oferta desayuno actualizada",
             "monto_descuento": "2.25",
+            "imagen": "https://example.com/oferta-actualizada.png",
             "producto_ids": [producto_a["id"], producto_b["id"]],
         },
     )
     assert update_response.status_code == 200
     updated = update_response.body
     assert updated["nombre"] == "Oferta desayuno actualizada"
+    assert updated["imagen"] == "https://example.com/oferta-actualizada.png"
     assert Decimal(updated["monto_descuento"]) == Decimal("2.25")
     assert {producto["id"] for producto in updated["productos"]} == {
         producto_a["id"],

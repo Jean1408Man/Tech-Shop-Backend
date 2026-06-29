@@ -26,6 +26,7 @@ class Oferta(Base):
     nombre = Column(String(100), index=True, nullable=False)
     descripcion = Column(Text, nullable=True)
     monto_descuento = Column(Numeric(10, 2), nullable=False)
+    imagen = Column(String(500), nullable=True)
 
     productos = relationship(
         "Producto",

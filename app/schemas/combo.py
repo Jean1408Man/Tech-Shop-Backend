@@ -10,6 +10,7 @@ class ComboBase(BaseModel):
     nombre: str
     descripcion: Optional[str] = None
     precio: Decimal = Field(ge=0)
+    imagen: Optional[str] = None
 
 
 class ComboCreate(ComboBase):
@@ -20,6 +21,7 @@ class ComboUpdate(BaseModel):
     nombre: Optional[str] = None
     descripcion: Optional[str] = None
     precio: Optional[Decimal] = Field(default=None, ge=0)
+    imagen: Optional[str] = None
     producto_ids: Optional[List[int]] = None
 
 

@@ -24,6 +24,7 @@ class OfertaResumen(BaseModel):
     nombre: str
     descripcion: Optional[str] = None
     monto_descuento: Decimal
+    imagen: Optional[str] = None
 
     class Config:
         from_attributes = True

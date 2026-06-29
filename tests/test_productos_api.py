@@ -54,6 +54,7 @@ def test_producto_uses_latest_active_offer_by_creation_timestamp(
             "nombre": "Oferta vigente nueva",
             "descripcion": "Segunda oferta vigente",
             "monto_descuento": "2.00",
+            "imagen": "https://example.com/oferta-vigente.png",
             "producto_ids": [producto["id"]],
         },
     )
@@ -83,4 +84,5 @@ def test_producto_uses_latest_active_offer_by_creation_timestamp(
     assert get_response.status_code == 200
     oferta_actual = get_response.body["oferta_actual"]
     assert oferta_actual["nombre"] == "Oferta vigente nueva"
+    assert oferta_actual["imagen"] == "https://example.com/oferta-vigente.png"
     assert Decimal(oferta_actual["monto_descuento"]) == Decimal("2.00")

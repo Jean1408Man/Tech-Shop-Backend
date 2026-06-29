@@ -11,12 +11,14 @@ def test_combos_crud_with_products(api_client, create_producto):
             "nombre": "Desayuno",
             "descripcion": "Cafe con pan",
             "precio": "11.00",
+            "imagen": "https://example.com/combo.png",
             "producto_ids": [producto_a["id"], producto_b["id"]],
         },
     )
     assert create_response.status_code == 201
     combo = create_response.body
     assert combo["nombre"] == "Desayuno"
+    assert combo["imagen"] == "https://example.com/combo.png"
     assert {producto["id"] for producto in combo["productos"]} == {
         producto_a["id"],
         producto_b["id"],
@@ -32,11 +34,16 @@ def test_combos_crud_with_products(api_client, create_producto):
 
     update_response = api_client.put(
         f"/api/v1/combos/{combo['id']}",
-        json_body={"precio": "9.50", "producto_ids": [producto_a["id"]]},
+        json_body={
+            "precio": "9.50",
+            "imagen": "https://example.com/combo-actualizado.png",
+            "producto_ids": [producto_a["id"]],
+        },
     )
     assert update_response.status_code == 200
     updated = update_response.body
     assert Decimal(updated["precio"]) == Decimal("9.50")
+    assert updated["imagen"] == "https://example.com/combo-actualizado.png"
     assert [producto["id"] for producto in updated["productos"]] == [producto_a["id"]]
 
     delete_response = api_client.delete(f"/api/v1/combos/{combo['id']}")

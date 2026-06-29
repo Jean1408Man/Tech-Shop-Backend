@@ -51,6 +51,7 @@ class OfertaService(BaseService[OfertaRepository]):
         nombre: str,
         monto_descuento: Decimal,
         descripcion: Optional[str] = None,
+        imagen: Optional[str] = None,
         producto_ids: Optional[List[int]] = None,
     ) -> Oferta:
         fecha_inicio = self._normalize_datetime(fecha_inicio)
@@ -63,6 +64,7 @@ class OfertaService(BaseService[OfertaRepository]):
             nombre=nombre,
             descripcion=descripcion,
             monto_descuento=monto_descuento,
+            imagen=imagen,
         )
         oferta.productos = self._get_productos(producto_ids)
         return self.repository.create(oferta)

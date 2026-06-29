@@ -23,6 +23,7 @@ def create_combo(combo: schemas.ComboCreate, db: Session = Depends(get_db)):
             nombre=combo.nombre,
             descripcion=combo.descripcion,
             precio=combo.precio,
+            imagen=combo.imagen,
             producto_ids=combo.producto_ids,
             service=ComboService(db),
         ).execute()

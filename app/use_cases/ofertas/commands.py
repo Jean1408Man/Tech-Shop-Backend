@@ -16,6 +16,7 @@ class CreateOfertaCommand(BaseCommand[Oferta]):
     monto_descuento: Decimal
     service: OfertaService
     descripcion: Optional[str] = None
+    imagen: Optional[str] = None
     producto_ids: Optional[List[int]] = None
 
     def execute(self) -> Oferta:
@@ -25,6 +26,7 @@ class CreateOfertaCommand(BaseCommand[Oferta]):
             nombre=self.nombre,
             descripcion=self.descripcion,
             monto_descuento=self.monto_descuento,
+            imagen=self.imagen,
             producto_ids=self.producto_ids,
         )
 

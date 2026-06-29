@@ -39,12 +39,14 @@ class ComboService(BaseService[ComboRepository]):
         nombre: str,
         precio: Decimal,
         descripcion: Optional[str] = None,
+        imagen: Optional[str] = None,
         producto_ids: Optional[List[int]] = None,
     ) -> Combo:
         combo = Combo(
             nombre=nombre,
             descripcion=descripcion,
             precio=precio,
+            imagen=imagen,
         )
         combo.productos = self._get_productos(producto_ids)
         return self.repository.create(combo)

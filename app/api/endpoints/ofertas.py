@@ -25,6 +25,7 @@ def create_oferta(oferta: schemas.OfertaCreate, db: Session = Depends(get_db)):
             nombre=oferta.nombre,
             descripcion=oferta.descripcion,
             monto_descuento=oferta.monto_descuento,
+            imagen=oferta.imagen,
             producto_ids=oferta.producto_ids,
             service=OfertaService(db),
         ).execute()

@@ -13,6 +13,7 @@ class CreateComboCommand(BaseCommand[Combo]):
     precio: Decimal
     service: ComboService
     descripcion: Optional[str] = None
+    imagen: Optional[str] = None
     producto_ids: Optional[List[int]] = None
 
     def execute(self) -> Combo:
@@ -20,6 +21,7 @@ class CreateComboCommand(BaseCommand[Combo]):
             nombre=self.nombre,
             descripcion=self.descripcion,
             precio=self.precio,
+            imagen=self.imagen,
             producto_ids=self.producto_ids,
         )
 
