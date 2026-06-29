@@ -3,9 +3,15 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
 
+import os
+import sys
+
+# Prepend project root to sys.path for app resolution
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 # Import project settings and models to register metadata
-from app.config import settings
-from app.database import Base
+from app.core.config import settings
+from app.core.database import Base
 from app import models
 
 # this is the Alembic Config object, which provides
