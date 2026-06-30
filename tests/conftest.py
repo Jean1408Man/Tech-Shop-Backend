@@ -155,8 +155,33 @@ def _wait_for_server(server: uvicorn.Server) -> None:
 
 
 @pytest.fixture()
-def create_producto(api_client):
-    def _create_producto(nombre: str = "Cafe", precio_base: str = "10.50"):
+def create_categoria(api_client):
+    def _create_categoria(nombre: str = "Bebidas"):
+        response = api_client.post(
+            "/api/v1/categorias/",
+            json_body={
+                "nombre": nombre,
+                "descripcion": "Categoria de prueba",
+                "url_img": "https://example.com/categoria.png",
+            },
+        )
+        assert response.status_code == 201
+        return response.body
+
+    return _create_categoria
+
+
+@pytest.fixture()
+def create_producto(api_client, create_categoria):
+    def _create_producto(
+        nombre: str = "Cafe",
+        precio_base: str = "10.50",
+        categoria_id: Optional[int] = None,
+    ):
+        if categoria_id is None:
+            categoria = create_categoria(nombre=f"Categoria {nombre}")
+            categoria_id = categoria["id"]
+
         response = api_client.post(
             "/api/v1/productos/",
             json_body={
@@ -164,6 +189,7 @@ def create_producto(api_client):
                 "descripcion": "Producto de prueba",
                 "precio_base": precio_base,
                 "url_img": "https://example.com/producto.png",
+                "categoria_id": categoria_id,
             },
         )
         assert response.status_code == 201

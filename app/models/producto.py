@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Numeric, String, Text
+from sqlalchemy import Column, ForeignKey, Integer, Numeric, String, Text
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -13,6 +13,9 @@ class Producto(Base):
     descripcion = Column(Text, nullable=True)
     precio_base = Column(Numeric(10, 2), nullable=False)
     url_img = Column(String(500), nullable=True)
+    categoria_id = Column(Integer, ForeignKey("categorias.id"), nullable=False)
+
+    categoria = relationship("Categoria", back_populates="productos")
 
     ofertas = relationship(
         "Oferta",

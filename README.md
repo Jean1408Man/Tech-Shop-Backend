@@ -71,6 +71,17 @@ curl http://localhost:8000/api/v1/users/me \
   -H "Authorization: Bearer $TOKEN"
 ```
 
+### Crear categoria
+```bash
+curl -X POST http://localhost:8000/api/v1/categorias/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Bebidas",
+    "descripcion": "Bebidas frias y calientes",
+    "url_img": "https://example.com/bebidas.png"
+  }'
+```
+
 ### Crear producto
 ```bash
 curl -X POST http://localhost:8000/api/v1/productos/ \
@@ -79,7 +90,8 @@ curl -X POST http://localhost:8000/api/v1/productos/ \
     "nombre": "Cafe",
     "descripcion": "Cafe molido",
     "precio_base": "10.50",
-    "url_img": "https://example.com/cafe.png"
+    "url_img": "https://example.com/cafe.png",
+    "categoria_id": 1
   }'
 ```
 

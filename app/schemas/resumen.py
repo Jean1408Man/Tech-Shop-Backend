@@ -11,6 +11,17 @@ class ProductoResumen(BaseModel):
     descripcion: Optional[str] = None
     precio_base: Decimal
     url_img: Optional[str] = None
+    categoria_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class CategoriaResumen(BaseModel):
+    id: int
+    nombre: str
+    url_img: Optional[str] = None
+    descripcion: Optional[str] = None
 
     class Config:
         from_attributes = True

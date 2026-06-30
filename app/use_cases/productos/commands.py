@@ -11,6 +11,7 @@ from app.services.producto import ProductoService
 class CreateProductoCommand(BaseCommand[Producto]):
     nombre: str
     precio_base: Decimal
+    categoria_id: int
     service: ProductoService
     descripcion: Optional[str] = None
     url_img: Optional[str] = None
@@ -21,6 +22,7 @@ class CreateProductoCommand(BaseCommand[Producto]):
             descripcion=self.descripcion,
             precio_base=self.precio_base,
             url_img=self.url_img,
+            categoria_id=self.categoria_id,
         )
 
 

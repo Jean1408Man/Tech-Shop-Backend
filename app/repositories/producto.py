@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import List
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.core.base.repository import BaseRepository
 from app.models.associations import producto_oferta
@@ -19,6 +19,23 @@ class ProductoRepository(BaseRepository[Producto]):
         if not ids:
             return []
         return self.db.query(Producto).filter(Producto.id.in_(ids)).all()
+
+    def get_with_categoria(self, id: int) -> Producto | None:
+        return (
+            self.db.query(Producto)
+            .options(selectinload(Producto.categoria))
+            .filter(Producto.id == id)
+            .first()
+        )
+
+    def get_all_with_categoria(self, skip: int = 0, limit: int = 100) -> List[Producto]:
+        return (
+            self.db.query(Producto)
+            .options(selectinload(Producto.categoria))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
 
     def get_current_offer(self, producto_id: int) -> Oferta | None:
         now = datetime.now(timezone.utc).replace(tzinfo=None)

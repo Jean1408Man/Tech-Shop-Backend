@@ -18,13 +18,17 @@ router = APIRouter()
 @router.post("/", response_model=schemas.Producto, status_code=201)
 def create_producto(producto: schemas.ProductoCreate, db: Session = Depends(get_db)):
     """Create a new product."""
-    return CreateProductoCommand(
-        nombre=producto.nombre,
-        descripcion=producto.descripcion,
-        precio_base=producto.precio_base,
-        url_img=producto.url_img,
-        service=ProductoService(db),
-    ).execute()
+    try:
+        return CreateProductoCommand(
+            nombre=producto.nombre,
+            descripcion=producto.descripcion,
+            precio_base=producto.precio_base,
+            url_img=producto.url_img,
+            categoria_id=producto.categoria_id,
+            service=ProductoService(db),
+        ).execute()
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.get("/", response_model=List[schemas.Producto])
@@ -66,11 +70,14 @@ def update_producto(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Producto no encontrado.",
         )
-    return UpdateProductoCommand(
-        producto=producto,
-        service=service,
-        fields=producto_in.model_dump(exclude_unset=True),
-    ).execute()
+    try:
+        return UpdateProductoCommand(
+            producto=producto,
+            service=service,
+            fields=producto_in.model_dump(exclude_unset=True),
+        ).execute()
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.delete("/{producto_id}", response_model=schemas.Producto)

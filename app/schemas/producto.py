@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from app.schemas.resumen import OfertaResumen
+from app.schemas.resumen import CategoriaResumen, OfertaResumen
 
 
 class ProductoBase(BaseModel):
@@ -11,6 +11,7 @@ class ProductoBase(BaseModel):
     descripcion: Optional[str] = None
     precio_base: Decimal = Field(ge=0)
     url_img: Optional[str] = None
+    categoria_id: int
 
 
 class ProductoCreate(ProductoBase):
@@ -22,10 +23,12 @@ class ProductoUpdate(BaseModel):
     descripcion: Optional[str] = None
     precio_base: Optional[Decimal] = Field(default=None, ge=0)
     url_img: Optional[str] = None
+    categoria_id: Optional[int] = None
 
 
 class Producto(ProductoBase):
     id: int
+    categoria: CategoriaResumen
     oferta_actual: Optional[OfertaResumen] = None
 
     class Config:

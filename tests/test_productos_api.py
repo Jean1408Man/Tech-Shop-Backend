@@ -8,6 +8,8 @@ def test_productos_crud(api_client, create_producto):
     created = create_producto()
     assert created["nombre"] == "Cafe"
     assert Decimal(created["precio_base"]) == Decimal("10.50")
+    assert created["categoria_id"] == created["categoria"]["id"]
+    assert created["categoria"]["nombre"] == "Categoria Cafe"
     assert created["oferta_actual"] is None
 
     list_response = api_client.get("/api/v1/productos/")
@@ -26,6 +28,21 @@ def test_productos_crud(api_client, create_producto):
     delete_response = api_client.delete(f"/api/v1/productos/{created['id']}")
     assert delete_response.status_code == 200
     assert api_client.get(f"/api/v1/productos/{created['id']}").status_code == 404
+
+
+def test_productos_validate_categoria_id(api_client):
+    response = api_client.post(
+        "/api/v1/productos/",
+        json_body={
+            "nombre": "Cafe",
+            "descripcion": "Producto sin categoria valida",
+            "precio_base": "10.50",
+            "url_img": "https://example.com/producto.png",
+            "categoria_id": 999,
+        },
+    )
+    assert response.status_code == 400
+    assert response.body["detail"] == "Categoria no encontrada."
 
 
 def test_producto_uses_latest_active_offer_by_creation_timestamp(
