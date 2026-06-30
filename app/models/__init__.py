@@ -4,3 +4,4 @@ from app.models.categoria import Categoria
 from app.models.producto import Producto
 from app.models.oferta import Oferta
 from app.models.combo import Combo
+from app.models.pedido import Pedido, PedidoCombo, PedidoProducto
