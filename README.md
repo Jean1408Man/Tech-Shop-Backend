@@ -130,3 +130,22 @@ Los tests están organizados por dominio dentro de `tests/` y hacen peticiones H
 ```
 
 Si el entorno restringe sockets locales, habilita permisos para ejecutar el servidor temporal de pruebas.
+
+## Datos de prueba para frontend
+
+Vaciar datos de aplicacion sin tocar migraciones:
+```bash
+docker compose exec web python -m app.cli.reset_database --yes
+```
+
+Llenar con datos de ejemplo:
+```bash
+docker compose exec web python -m app.cli.seed_sample_data
+```
+
+Tambien puedes hacer ambos pasos en uno:
+```bash
+docker compose exec web python -m app.cli.seed_sample_data --reset --yes
+```
+
+El seed crea el usuario `demo@orbita.local` con password `demo123`.
